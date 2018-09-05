@@ -16,8 +16,6 @@
 #
 
 
-dpkg -i /thingsboard.deb
-
 # Copying env variables into conf files
 printenv | awk -F "=" '{print "export " $1 "='\''" $2 "'\''"}' >> /usr/share/thingsboard/conf/thingsboard.conf
 
@@ -54,6 +52,4 @@ fi
 echo "Starting 'Thingsboard' service..."
 service thingsboard start
 
-# Wait until log file is created
-sleep 10
-tail -f /var/log/thingsboard/thingsboard.log
+tail -F /var/log/thingsboard/thingsboard.log

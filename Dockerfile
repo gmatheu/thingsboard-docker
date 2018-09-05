@@ -16,11 +16,17 @@
 
 FROM openjdk:8-jre
 
-ADD run-application.sh /run-application.sh
-ADD thingsboard.deb /thingsboard.deb
+ARG TB_VERSION=2.1
 
-RUN apt-get update \
-        && apt-get install --no-install-recommends -y nmap \
-        && apt-get clean \
-        && rm -r /var/lib/apt/lists/* \
-        && chmod +x /run-application.sh
+RUN wget https://github.com/thingsboard/thingsboard/releases/download/v${TB_VERSION}/thingsboard-${TB_VERSION}.deb \
+  && dpkg -i thingsboard-${TB_VERSION}.deb \
+  && rm thingsboard-${TB_VERSION}.deb \
+  && apt-get update \
+  && apt-get install -y nmap \
+  && apt-get autoremove -y \
+  && apt-get autoclean -y \
+  && apt-get clean -y \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+ADD run-application.sh /run-application.sh
+
+CMD /run-application.sh
