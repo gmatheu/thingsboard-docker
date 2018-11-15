@@ -16,7 +16,7 @@
 
 FROM openjdk:8-jre
 
-ARG TB_VERSION=2.1
+ARG TB_VERSION=2.1.3
 
 RUN wget https://github.com/thingsboard/thingsboard/releases/download/v${TB_VERSION}/thingsboard-${TB_VERSION}.deb \
   && dpkg -i thingsboard-${TB_VERSION}.deb \
